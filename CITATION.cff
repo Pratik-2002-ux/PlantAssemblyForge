@@ -8,6 +8,7 @@ authors:
 version: "1.0.0"
 date-released: "2026-08-10"
 license: MIT
+repository-code: "https://github.com/Pratik-2002-ux/PlantAssemblyForge"
 keywords:
   - bioinformatics
   - genome assembly
@@ -18,3 +19,4 @@ keywords:
   - SPAdes
   - BUSCO
   - QUAST
+
