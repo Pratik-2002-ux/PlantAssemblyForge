@@ -1,0 +1,52 @@
+# Raw sequencing
+*.fastq
+*.fastq.gz
+*.fq
+*.fq.gz
+*.sra
+
+data/
+work/
+busco_downloads/
+tools/
+
+# Large biological files
+*.fa
+*.fasta
+*.fna
+*.fa.gz
+*.fasta.gz
+*.fna.gz
+*.bam
+*.bai
+*.sam
+*.jf
+*.dmnd
+
+# Keep only compact result summaries
+results/
+!results_summary/
+results_summary/genome/*.fasta
+
+# Nextflow
+.nextflow/
+.nextflow.log
+.nextflow.*
+.nextflow_history
+
+# Python / Conda
+__pycache__/
+*.pyc
+.venv/
+venv/
+env/
+
+# macOS / IDE
+.DS_Store
+.vscode/
+.idea/
+
+# Temporary
+*.tmp
+*.temp
+*~

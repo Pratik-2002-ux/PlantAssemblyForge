@@ -1,0 +1,2 @@
+sample,r1,r2
+arabidopsis,data/subset/arabidopsis_R1.fastq.gz,data/subset/arabidopsis_R2.fastq.gz

@@ -1,0 +1,24 @@
+name: plantassembly
+
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+
+dependencies:
+  - python=3.12
+  - nextflow
+  - fastqc
+  - fastp
+  - multiqc
+  - spades
+  - hisat2
+  - samtools
+  - stringtie
+  - bowtie2
+  - diamond
+  - seqkit
+  - minimap2
+  - kmer-jellyfish
+  - gmap
+  - sra-tools

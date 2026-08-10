@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+message: "If you use PlantAssemblyForge in your research, please cite this software."
+title: "PlantAssemblyForge"
+type: software
+authors:
+  - family-names: "Chaudhari"
+    given-names: "Pratik"
+version: "1.0.0"
+date-released: "2026-08-10"
+license: MIT
+keywords:
+  - bioinformatics
+  - genome assembly
+  - de novo assembly
+  - transcriptome assembly
+  - plant genomics
+  - Nextflow
+  - SPAdes
+  - BUSCO
+  - QUAST
