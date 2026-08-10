@@ -81,6 +81,55 @@ PlantAssemblyForge/
 ├── environment.yml
 ├── CITATION.cff
 └── LICENSE
+
+## Interactive Results Dashboard
+
+PlantAssemblyForge includes an interactive Streamlit dashboard for visual exploration and interpretation of genome and transcriptome analysis results.
+
+### Dashboard Features
+
+- Sequencing quality-control summary
+- Raw vs cleaned read comparison
+- Genome assembly statistics
+- QUAST assembly evaluation
+- BUSCO gene-space completeness
+- Interactive Jellyfish 21-mer spectrum
+- Transcriptome assembly and annotation summary
+- Nextflow DSL2 workflow architecture
+- Scientific interpretation of major assembly metrics
+
+### Launch the Dashboard
+
+Activate the Conda environment:
+
+```bash
+conda activate plantassembly
+```
+
+Launch PlantAssemblyForge:
+
+```bash
+streamlit run app/app.py
+```
+
+The dashboard will normally be available at:
+
+```text
+http://localhost:8501
+```
+
+### Dashboard Navigation
+
+```text
+Overview
+├── Quality Control
+├── Genome Assembly
+├── QUAST
+├── BUSCO
+├── k-mer Analysis
+├── Transcriptome
+└── Workflow
+```
 ```
 
 ## Results
