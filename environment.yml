@@ -9,6 +9,10 @@ dependencies:
   - python=3.12
   - nextflow
   - fastqc
+  - streamlit
+  - plotly
+  - pandas
+  - matplotlib
   - fastp
   - multiqc
   - spades
