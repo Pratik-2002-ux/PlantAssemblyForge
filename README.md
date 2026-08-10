@@ -86,6 +86,24 @@ PlantAssemblyForge/
 
 PlantAssemblyForge includes an interactive Streamlit dashboard for visual exploration and interpretation of genome and transcriptome analysis results.
 
+## Dashboard Preview
+
+### Overview
+
+![PlantAssemblyForge Overview](docs/images/overview.png)
+
+### Genome Assembly
+
+![Genome Assembly Results](docs/images/genome_assembly.png)
+
+### BUSCO Completeness
+
+![BUSCO Completeness](docs/images/busco.png)
+
+### Transcriptome Analysis
+
+![Transcriptome Analysis](docs/images/transcriptome.png)
+
 ### Dashboard Features
 
 - Sequencing quality-control summary

@@ -335,7 +335,7 @@ if page == "Overview":
 
     st.dataframe(
         dataset,
-        use_container_width=True,
+        width="stretch",
         hide_index=True,
     )
 
@@ -463,7 +463,7 @@ elif page == "Quality Control":
 
         st.dataframe(
             qc_df,
-            use_container_width=True,
+            width="stretch",
             hide_index=True,
         )
 
@@ -492,7 +492,7 @@ elif page == "Quality Control":
 
         st.plotly_chart(
             fig,
-            use_container_width=True,
+            width="stretch",
         )
 
         st.markdown(
@@ -575,7 +575,7 @@ elif page == "Genome Assembly":
 
     st.dataframe(
         assembly_df,
-        use_container_width=True,
+        width="stretch",
         hide_index=True,
     )
 
@@ -606,7 +606,7 @@ elif page == "Genome Assembly":
 
     st.plotly_chart(
         fig,
-        use_container_width=True,
+        width="stretch",
     )
 
     st.markdown(
@@ -672,7 +672,7 @@ elif page == "QUAST":
 
     st.dataframe(
         quast_df,
-        use_container_width=True,
+        width="stretch",
         hide_index=True,
     )
 
@@ -698,7 +698,7 @@ elif page == "QUAST":
 
     st.plotly_chart(
         fig,
-        use_container_width=True,
+        width="stretch",
     )
 
     recovery = pd.DataFrame(
@@ -723,7 +723,7 @@ elif page == "QUAST":
 
     st.plotly_chart(
         fig,
-        use_container_width=True,
+        width="stretch",
     )
 
     st.markdown(
@@ -789,7 +789,7 @@ elif page == "BUSCO":
 
     st.dataframe(
         busco_df,
-        use_container_width=True,
+        width="stretch",
         hide_index=True,
     )
 
@@ -827,7 +827,7 @@ elif page == "BUSCO":
 
     st.plotly_chart(
         fig,
-        use_container_width=True,
+        width="stretch",
     )
 
     st.markdown(
@@ -917,14 +917,14 @@ elif page == "k-mer Analysis":
 
         st.plotly_chart(
             fig,
-            use_container_width=True,
+            width="stretch",
         )
 
         st.subheader("Histogram Data")
 
         st.dataframe(
             hist.head(50),
-            use_container_width=True,
+            width="stretch",
             hide_index=True,
         )
 
@@ -987,7 +987,7 @@ elif page == "Transcriptome":
 
     st.plotly_chart(
         fig,
-        use_container_width=True,
+        width="stretch",
     )
 
     st.subheader("De Novo Branch")
@@ -1104,7 +1104,7 @@ elif page == "Workflow":
 
     st.dataframe(
         modules,
-        use_container_width=True,
+        width="stretch",
         hide_index=True,
     )
 
