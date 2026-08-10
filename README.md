@@ -1,161 +1,409 @@
-# PlantAssemblyForge
+# 🌱 PlantAssemblyForge
 
-PlantAssemblyForge is a modular Nextflow DSL2 workflow for reproducible plant genome and transcriptome assembly, quality control, validation, and functional analysis.
+### A Reproducible Nextflow DSL2 Platform for Plant Genome and Transcriptome Assembly
 
-## Genome Workflow
+PlantAssemblyForge is a modular bioinformatics workflow for **plant de novo genome assembly, transcriptome assembly, quality control, assembly validation, functional analysis, and interactive results visualization**.
 
-FASTQ → FastQC → fastp → Post-QC → Jellyfish → SPAdes → QUAST → BUSCO
+The platform combines **Nextflow DSL2** workflow orchestration with established bioinformatics tools and an interactive **Streamlit dashboard**, providing a reproducible workflow from raw sequencing reads to interpretable assembly-quality results.
 
-## Genome Dataset
+---
 
-- Organism: Arabidopsis thaliana
-- SRA accession: SRR1946456
-- Strategy: Whole-genome sequencing
-- Layout: Paired-end Illumina
-- Read length: 100 bp
+## 🖥️ Interactive Results Dashboard
 
-## Genome Assembly Results
+PlantAssemblyForge includes an interactive Streamlit dashboard for exploring benchmark results, assembly statistics, validation metrics, k-mer distributions, transcriptome outputs, and workflow architecture.
+
+### Project Overview
+
+![PlantAssemblyForge Overview](docs/images/overview.png)
+
+The overview provides a compact summary of the benchmark dataset and major genome assembly results, including cleaned sequencing coverage, assembly size, genome fraction, and BUSCO completeness.
+
+---
+
+## 🧬 De Novo Genome Assembly
+
+The genome workflow processes paired-end sequencing reads through quality assessment, read preprocessing, k-mer analysis, assembly, and independent assembly validation.
+
+```text
+Paired-end FASTQ
+        │
+        ▼
+      FastQC
+        │
+        ▼
+       fastp
+        │
+        ▼
+Post-trimming FastQC
+        │
+        ├────────────► Jellyfish k-mer analysis
+        │
+        ▼
+      SPAdes
+        │
+        ├────────────► QUAST
+        │
+        └────────────► BUSCO
+```
+
+### Genome Assembly Dashboard
+
+![Genome Assembly Results](docs/images/genome_assembly.png)
+
+Representative benchmark statistics include:
 
 | Metric | Result |
 |---|---:|
-| Assembly size | 107.24 Mb |
-| Largest scaffold | 56,462 bp |
+| Scaffold assembly size | 107.24 Mb |
+| Contig assembly size | 107.21 Mb |
 | Scaffold N50 | 8,515 bp |
+| Contig N50 | 7,429 bp |
+| Largest scaffold | 56,462 bp |
+| GC content | 36.21% |
+
+---
+
+## 📊 QUAST Assembly Evaluation
+
+QUAST is used to evaluate assembly contiguity and reference-based genome recovery.
+
+Representative results include:
+
+| Metric | Result |
+|---|---:|
 | Genome fraction | 81.892% |
 | Duplication ratio | 1.003 |
-| NGA50 | 5,971 bp |
-| GC content | 36.21% |
-| BUSCO completeness | 95.4% |
+| Scaffold NGA50 | 5,971 bp |
 
-BUSCO completeness:
+QUAST outputs are retained in `results_summary/genome/` to provide compact evidence of assembly performance without storing large intermediate files in Git.
 
-`C:95.4% [S:93.9%, D:1.5%], F:3.4%, M:1.3%, n:1990`
+---
 
-## Genome Modules
+## 🧬 BUSCO Completeness Assessment
 
-1. GENOME_FASTQC
-2. GENOME_FASTP
-3. GENOME_FASTQC_CLEAN
-4. GENOME_JELLYFISH
-5. GENOME_SPADES
-6. GENOME_QUAST
-7. GENOME_BUSCO
+BUSCO evaluates recovery of evolutionarily conserved plant genes and provides an independent measure of biological completeness.
 
-All seven genome modules were successfully validated using Nextflow DSL2 stub execution.
+![BUSCO Completeness](docs/images/busco.png)
 
-## Transcriptome Workflow
+Representative BUSCO results:
 
-The repository also contains modules for RNA-SPAdes, HISAT2, SAMtools, StringTie, Bowtie2 read-back validation, rnaQUAST, TransDecoder, DIAMOND, and MultiQC.
+| Category | Result |
+|---|---:|
+| Complete BUSCOs | 95.4% |
+| Single-copy | 93.9% |
+| Fragmented | 3.4% |
+| Missing | 1.3% |
 
-## Installation
+The benchmark demonstrates high recovery of conserved gene content despite fragmentation expected from a moderate-depth short-read de novo assembly.
+
+---
+
+## 🔬 k-mer Analysis
+
+Jellyfish is used to generate the k-mer frequency spectrum before assembly.
+
+The current benchmark uses:
+
+```text
+k = 21
+```
+
+The resulting spectrum provides information about read multiplicity, sequencing error, coverage structure, and genome complexity.
+
+The representative histogram is available at:
+
+```text
+results_summary/genome/k21_histogram.tsv
+```
+
+---
+
+## 🧪 Transcriptome Assembly
+
+PlantAssemblyForge also contains modules for **de novo** and **reference-guided transcriptome analysis**.
+
+![Transcriptome Analysis](docs/images/transcriptome.png)
+
+### De Novo Branch
+
+```text
+RNA-seq
+   │
+   ▼
+FastQC
+   │
+   ▼
+fastp
+   │
+   ▼
+RNA-SPAdes
+   │
+   ▼
+Read-back mapping
+   │
+   ▼
+rnaQUAST
+   │
+   ▼
+TransDecoder
+   │
+   ▼
+DIAMOND
+```
+
+This branch supports transcript reconstruction, assembly validation, protein prediction, and sequence-similarity-based functional analysis.
+
+### Reference-Guided Branch
+
+```text
+RNA-seq
+   │
+   ▼
+HISAT2
+   │
+   ▼
+SAMtools
+   │
+   ▼
+StringTie
+```
+
+The reference-guided branch provides an alternative workflow when an appropriate reference genome is available.
+
+---
+
+## ⚙️ Nextflow DSL2 Architecture
+
+PlantAssemblyForge uses modular **Nextflow DSL2** processes to separate individual bioinformatics operations from higher-level workflow logic.
+
+Genome workflow modules include:
+
+```text
+GENOME_FASTQC
+      │
+      ▼
+GENOME_FASTP
+      │
+      ▼
+GENOME_FASTQC_CLEAN
+      │
+      ├────────────► GENOME_JELLYFISH
+      │
+      ▼
+GENOME_SPADES
+      │
+      ├────────────► GENOME_QUAST
+      │
+      └────────────► GENOME_BUSCO
+```
+
+The genome modules have also been tested using Nextflow stub execution to validate workflow connectivity without rerunning computationally expensive analyses.
+
+---
+
+## 🛠️ Technology Stack
+
+| Category | Tools |
+|---|---|
+| Workflow management | Nextflow DSL2 |
+| Read QC | FastQC, fastp, MultiQC |
+| k-mer analysis | Jellyfish |
+| Genome assembly | SPAdes |
+| Genome validation | QUAST, BUSCO |
+| Transcriptome assembly | RNA-SPAdes |
+| Alignment | HISAT2, Bowtie2, minimap2 |
+| Alignment processing | SAMtools |
+| Transcript reconstruction | StringTie |
+| Protein prediction | TransDecoder |
+| Functional similarity search | DIAMOND |
+| Dashboard | Streamlit |
+| Data analysis | Python, pandas |
+| Visualization | Plotly, Matplotlib |
+| Environment management | Conda |
+
+---
+
+## 📁 Repository Structure
+
+```text
+PlantAssemblyForge/
+│
+├── app/
+│   └── app.py
+│
+├── conf/
+│   └── genome.config
+│
+├── config/
+│   └── samplesheet.csv
+│
+├── docs/
+│   └── images/
+│       ├── overview.png
+│       ├── genome_assembly.png
+│       ├── busco.png
+│       └── transcriptome.png
+│
+├── modules/
+│   ├── alignment/
+│   ├── annotation/
+│   ├── assembly/
+│   ├── genome/
+│   ├── qc/
+│   └── validation/
+│
+├── workflows/
+│   ├── genome.nf
+│   └── transcriptome.nf
+│
+├── results_summary/
+│   ├── RESULTS.md
+│   └── genome/
+│
+├── genome_main.nf
+├── main.nf
+├── nextflow.config
+├── environment.yml
+├── CITATION.cff
+├── LICENSE
+└── README.md
+```
+
+---
+
+## 🚀 Installation
+
+Clone the repository:
+
+```bash
+git clone https://github.com/Pratik-2002-ux/PlantAssemblyForge.git
+cd PlantAssemblyForge
+```
+
+Create the Conda environment:
 
 ```bash
 conda env create -f environment.yml
 conda activate plantassembly
 ```
 
-## Validate the Genome Workflow
+---
+
+## ▶️ Running the Genome Workflow
+
+Validate the workflow structure using Nextflow stub execution:
 
 ```bash
 nextflow -C conf/genome.config run genome_main.nf -stub-run
 ```
 
-## Run the Genome Workflow
+Run the complete genome workflow:
 
 ```bash
 nextflow -C conf/genome.config run genome_main.nf
 ```
 
-## Repository Structure
+---
 
-```text
-PlantAssemblyForge/
-├── genome_main.nf
-├── main.nf
-├── nextflow.config
-├── conf/
-├── config/
-├── modules/
-├── workflows/
-├── results_summary/
-├── environment.yml
-├── CITATION.cff
-└── LICENSE
+## 🖥️ Running the Dashboard
 
-## Interactive Results Dashboard
-
-PlantAssemblyForge includes an interactive Streamlit dashboard for visual exploration and interpretation of genome and transcriptome analysis results.
-
-## Dashboard Preview
-
-### Overview
-
-![PlantAssemblyForge Overview](docs/images/overview.png)
-
-### Genome Assembly
-
-![Genome Assembly Results](docs/images/genome_assembly.png)
-
-### BUSCO Completeness
-
-![BUSCO Completeness](docs/images/busco.png)
-
-### Transcriptome Analysis
-
-![Transcriptome Analysis](docs/images/transcriptome.png)
-
-### Dashboard Features
-
-- Sequencing quality-control summary
-- Raw vs cleaned read comparison
-- Genome assembly statistics
-- QUAST assembly evaluation
-- BUSCO gene-space completeness
-- Interactive Jellyfish 21-mer spectrum
-- Transcriptome assembly and annotation summary
-- Nextflow DSL2 workflow architecture
-- Scientific interpretation of major assembly metrics
-
-### Launch the Dashboard
-
-Activate the Conda environment:
-
-```bash
-conda activate plantassembly
-```
-
-Launch PlantAssemblyForge:
+Launch the interactive results dashboard:
 
 ```bash
 streamlit run app/app.py
 ```
 
-The dashboard will normally be available at:
+Streamlit will provide a local browser address, typically:
 
 ```text
 http://localhost:8501
 ```
 
-### Dashboard Navigation
+The dashboard provides dedicated views for:
+
+- Project overview
+- Genome assembly
+- QUAST
+- BUSCO
+- k-mer analysis
+- Transcriptome analysis
+- Workflow architecture
+
+---
+
+## 📦 Results and Data Policy
+
+Compact representative results are provided under:
 
 ```text
-Overview
-├── Quality Control
-├── Genome Assembly
-├── QUAST
-├── BUSCO
-├── k-mer Analysis
-├── Transcriptome
-└── Workflow
-```
+results_summary/
 ```
 
-## Results
+Large files are deliberately excluded from Git version control, including:
 
-Compact representative outputs are provided in `results_summary/`.
+- Raw FASTQ/SRA sequencing data
+- Trimmed FASTQ files
+- Large genome assemblies
+- Reference genomes and annotations
+- BUSCO databases
+- Large intermediate alignment files
+- Nextflow `work/` directories
+- Tool installations and databases
 
-Raw sequencing data, reference databases, BUSCO datasets, large assembly FASTA files, Nextflow work directories, and intermediate files are excluded from Git version control.
+This keeps the repository lightweight while preserving the workflow implementation and representative evidence required to understand and reproduce the analysis.
 
-## License
+---
 
-MIT License
+## 🔁 Reproducibility
+
+PlantAssemblyForge supports reproducibility through:
+
+- Nextflow DSL2 workflow orchestration
+- Modular process definitions
+- Conda environment specification
+- Explicit configuration files
+- Representative benchmark outputs
+- Git version control
+- Versioned releases
+- Citation metadata
+- Stub-run workflow validation
+
+---
+
+## 📌 Current Release
+
+**PlantAssemblyForge v1.1.0**
+
+This release includes the modular workflow implementation, representative genome/transcriptome results, interactive Streamlit dashboard, and dashboard documentation.
+
+---
+
+## 📖 Citation
+
+Citation metadata is provided through:
+
+```text
+CITATION.cff
+```
+
+If PlantAssemblyForge contributes to research or analysis, please cite the repository and corresponding software release.
+
+---
+
+## 📄 License
+
+PlantAssemblyForge is distributed under the **MIT License**.
+
+See `LICENSE` for details.
+
+---
+
+## 👨‍💻 Author
+
+**Pratik Ramchandra Chaudhari**
+
+PlantAssemblyForge was developed as a bioinformatics workflow-development project focused on reproducible plant genome and transcriptome analysis.
+
+---
+
+⭐ If you find PlantAssemblyForge useful, consider starring the repository.
